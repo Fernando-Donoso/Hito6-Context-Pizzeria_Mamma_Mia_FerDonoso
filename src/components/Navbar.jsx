@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { formatPrice } from "../utils/formatPrice";
-
+import { CartContext } from "../contexts/CartContext";   // ← IMPORTANTE
 
 // Simulación: cambiar a true para simular usuario logueado
 const token = false;
 
-// Simulación: valor fijo del total de la compra
-const total = 25000;
-
 const Navbar = () => {
+  const { total } = useContext(CartContext);   // ← TOTAL REAL DEL CARRITO
+
   return (
     <nav style={styles.navbar}>
       <div style={styles.container}>
@@ -20,23 +19,21 @@ const Navbar = () => {
 
           <div className="btn-group" role="group">
 
-            {/* Home: siempre visible */}
+            {/* Home */}
             <Link to="/" className="btn btn-outline-secondary btn-sm" style={styles.btn}>
               🍕 Home
             </Link>
 
-            {/* Profile: siempre visible */}
+            {/* Profile */}
             <Link to="/profile" className="btn btn-outline-secondary btn-sm" style={styles.btn}>
               🔓 Profile
             </Link>
 
-            {/* Botones condicionales según token */}
+            {/* Botones condicionales */}
             {token ? (
-              <>
-                <button type="button" className="btn btn-outline-secondary btn-sm" style={styles.btn}>
-                  🔒 Logout
-                </button>
-              </>
+              <button type="button" className="btn btn-outline-secondary btn-sm" style={styles.btn}>
+                🔒 Logout
+              </button>
             ) : (
               <>
                 <Link to="/login" className="btn btn-outline-secondary btn-sm" style={styles.btn}>
@@ -51,7 +48,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Lado derecho: Total carrito — siempre visible */}
+        {/* Lado derecho: Total carrito */}
         <div>
           <Link to="/cart" className="btn btn-outline-success btn-sm" style={styles.cartBtn}>
             🛒 Total: ${formatPrice(total)}
@@ -62,6 +59,7 @@ const Navbar = () => {
     </nav>
   );
 };
+
 
 const styles = {
   navbar: {

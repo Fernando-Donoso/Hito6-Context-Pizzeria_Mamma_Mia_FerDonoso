@@ -1,28 +1,30 @@
-import React from "react";
+import React, { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
 
 const formatPrice = (value) => value.toLocaleString("es-CL");
 
-const CardPizza = ({ name, price, ingredients, img }) => {
-    const safeIngredients = Array.isArray(ingredients)
-    ? ingredients
-    : typeof ingredients === "string"
-    ? ingredients.split(",").map((i) => i.trim())
+const CardPizza = ({ pizza }) => {
+  if (!pizza) return null; 
+  const { addToCart } = useContext(CartContext);
+
+  const safeIngredients = Array.isArray(pizza.ingredients)
+    ? pizza.ingredients
+    : typeof pizza.ingredients === "string"
+    ? pizza.ingredients.split(",").map((i) => i.trim())
     : [];
 
-    
   return (
     <div style={styles.card}>
       {/* Imagen */}
-      <img src={img} alt={name} style={styles.image} />
+      <img src={pizza.img} alt={pizza.name} style={styles.image} />
 
       {/* Contenido */}
       <div style={styles.body}>
-        <h3 style={styles.name}>🍕 {name}</h3>
+        <h3 style={styles.name}>🍕 {pizza.name}</h3>
 
         {/* Ingredientes */}
         <p style={styles.ingredientsTitle}>Ingredientes:</p>
         <ul style={styles.ingredientsList}>
-{/*          {ingredients.map((ingredient, index) => (  */}
           {safeIngredients.map((ingredient, index) => (
             <li key={index} style={styles.ingredient}>
               {ingredient}
@@ -32,8 +34,14 @@ const CardPizza = ({ name, price, ingredients, img }) => {
 
         {/* Precio y botón */}
         <div style={styles.footer}>
-          <span style={styles.price}>${formatPrice(price)}</span>
-          <button type="button" className="btn btn-outline-success btn-sm" style={styles.btn}>
+          <span style={styles.price}>${formatPrice(pizza.price)}</span>
+
+          <button
+            type="button"
+            className="btn btn-outline-success btn-sm"
+            style={styles.btn}
+            onClick={() => addToCart(pizza)}   // ← AQUÍ SE AGREGA AL CARRITO
+          >
             Añadir 🛒
           </button>
         </div>
