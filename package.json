@@ -1,8 +1,4 @@
 {
-<<<<<<< HEAD
-  "dependencies": {
-    "react-router-dom": "^6.30.3"
-=======
   "name": "pizzeria_mamma_mia_fdonoso",
   "private": true,
   "version": "0.0.0",
@@ -33,6 +29,5 @@
     "eslint-plugin-react-refresh": "^0.5.2",
     "globals": "^17.4.0",
     "vite": "^8.0.4"
->>>>>>> Renderizacion_dinamica_componentes_fdonoso
   }
 }
