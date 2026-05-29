@@ -1,44 +1,37 @@
 import { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
+import CartItem from "../components/CartItem";
 
 export default function CartPage() {
-  const { cart, increase, decrease, removeFromCart, total } = useContext(CartContext);
+  const { cart, total } = useContext(CartContext);
 
   return (
     <div className="container mt-4">
       <h1>Carrito de Compras</h1>
 
       <div className="row">
+        {/* LISTA DE PRODUCTOS */}
         <div className="col-md-6">
-          <ul className="p-0">
-            {cart.map((p) => (
-              <li key={p.id} className="border rounded mt-2 p-3" style={{ listStyle: "none" }}>
-                <div className="d-flex justify-content-between">
-                  <div>
-                    <img style={{ width: "50px" }} src={p.img} alt="" /> {p.name}
-                  </div>
-
-                  <div>
-                    <button className="btn btn-sm btn-secondary" onClick={() => increase(p.id)}>+</button>
-                    <span className="mx-2">{p.count}</span>
-                    <button className="btn btn-sm btn-secondary" onClick={() => decrease(p.id)}>-</button>
-
-                    <p className="mt-2">Total: ${(p.price * p.count).toLocaleString()}</p>
-
-                    <button className="btn btn-danger btn-sm" onClick={() => removeFromCart(p.id)}>
-                      Eliminar
-                    </button>
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+          {cart.length === 0 ? (
+            <p className="text-muted">Tu carrito está vacío</p>
+          ) : (
+            <ul className="p-0">
+              {cart.map((item) => (
+                <li key={item.id} style={{ listStyle: "none", marginBottom: "1rem" }}>
+                  <CartItem item={item} />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
 
+        {/* RESUMEN DE COMPRA */}
         <div className="col-md-6 border rounded p-3">
           <h3>Resumen de Compra</h3>
-          <p>Total a Pagar: ${total.toLocaleString()}</p>
-          <button className="btn btn-primary">Finalizar Compra</button>
+          <p>Total a Pagar: ${total.toLocaleString("es-CL")}</p>
+          <button className="btn btn-primary" disabled={cart.length === 0}>
+            Finalizar Compra
+          </button>
         </div>
       </div>
     </div>

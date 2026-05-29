@@ -1,12 +1,29 @@
-const CartItem = ({ name, price, img, count }) => {
+import { useContext } from "react";
+import { CartContext } from "../contexts/CartContext";
+
+const CartItem = ({ item }) => {
+  const { increase, decrease, removeFromCart } = useContext(CartContext);
+
+  const { name, price, img, count, id } = item;
+
   return (
     <div style={styles.card}>
       <img src={img} alt={name} style={styles.image} />
 
       <div style={styles.info}>
         <h3 style={styles.title}>{name}</h3>
+
         <p style={styles.price}>${price.toLocaleString("es-CL")}</p>
-        <p style={styles.count}>Cantidad: {count}</p>
+
+        <div style={styles.controls}>
+          <button style={styles.btn} onClick={() => decrease(id)}>-</button>
+          <span style={styles.count}>{count}</span>
+          <button style={styles.btn} onClick={() => increase(id)}>+</button>
+        </div>
+
+        <button style={styles.deleteBtn} onClick={() => removeFromCart(id)}>
+          Eliminar
+        </button>
       </div>
     </div>
   );

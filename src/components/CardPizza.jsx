@@ -5,7 +5,10 @@ const formatPrice = (value) => value.toLocaleString("es-CL");
 
 const CardPizza = ({ pizza }) => {
   if (!pizza) return null; 
+  {/*console.log("Pizza recibida:", pizza); */}
   const { addToCart } = useContext(CartContext);
+
+
 
   const safeIngredients = Array.isArray(pizza.ingredients)
     ? pizza.ingredients

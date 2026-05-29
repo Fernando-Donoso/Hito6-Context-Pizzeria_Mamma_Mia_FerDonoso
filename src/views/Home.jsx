@@ -35,13 +35,7 @@ function Home() {
 
         <div style={styles.grid}>
             {info.map((pizza) => (
-              <CardPizza
-                key={pizza.id}
-                name={pizza.name}
-                price={pizza.price}
-                ingredients={pizza.ingredients}
-                img={pizza.img}
-              />
+              <CardPizza key={pizza.id} pizza={pizza} />
             ))}
         </div>
 

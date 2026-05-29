@@ -5,43 +5,66 @@ export const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
+  // -----------------------------
+  //   AÑADIR AL CARRITO
+  // -----------------------------
   const addToCart = (pizza) => {
-    const exists = cart.find((p) => p.id === pizza.id);
+    const id = String(pizza.id); // ← Asegura que siempre sea string
 
-    if (exists) {
-      setCart(
-        cart.map((p) =>
-          p.id === pizza.id ? { ...p, count: p.count + 1 } : p
-        )
-      );
-    } else {
-      setCart([...cart, { ...pizza, count: 1 }]);
-    }
+    setCart((prev) => {
+      const exists = prev.find((p) => p.id === id);
+
+      if (exists) {
+        return prev.map((p) =>
+          p.id === id ? { ...p, count: p.count + 1 } : p
+        );
+      }
+
+      return [...prev, { ...pizza, id, count: 1 }];
+    });
   };
 
+  // -----------------------------
+  //   AUMENTAR CANTIDAD
+  // -----------------------------
   const increase = (id) => {
-    setCart(
-      cart.map((p) =>
+    id = String(id);
+
+    setCart((prev) =>
+      prev.map((p) =>
         p.id === id ? { ...p, count: p.count + 1 } : p
       )
     );
   };
 
+  // -----------------------------
+  //   DISMINUIR CANTIDAD
+  // -----------------------------
   const decrease = (id) => {
-    setCart(
-      cart.map((p) =>
-        p.id === id && p.count > 1
-          ? { ...p, count: p.count - 1 }
-          : p
-      )
+    id = String(id);
+
+    setCart((prev) =>
+      prev
+        .map((p) =>
+          p.id === id ? { ...p, count: p.count - 1 } : p
+        )
+        .filter((p) => p.count > 0)
     );
   };
 
+  // -----------------------------
+  //   ELIMINAR PRODUCTO
+  // -----------------------------
   const removeFromCart = (id) => {
-    setCart(cart.filter((p) => p.id !== id));
+    id = String(id);
+
+    setCart((prev) => prev.filter((p) => p.id !== id));
   };
 
-  const total = cart.reduce((acc, p) => acc + p.price * p.count, 0);
+  // -----------------------------
+  //   TOTAL A PAGAR
+  // -----------------------------
+  const total = cart.reduce((sum, p) => sum + p.price * p.count, 0);
 
   return (
     <CartContext.Provider
@@ -51,3 +74,4 @@ export function CartProvider({ children }) {
     </CartContext.Provider>
   );
 }
+
