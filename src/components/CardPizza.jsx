@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import { CartContext } from "../contexts/CartContext";
+import { Link } from "react-router-dom";
 
 const formatPrice = (value) => value.toLocaleString("es-CL");
 
@@ -24,6 +25,12 @@ const CardPizza = ({ pizza }) => {
       {/* Contenido */}
       <div style={styles.body}>
         <h3 style={styles.name}>🍕 {pizza.name}</h3>
+
+      {/* Nombre con Link */}
+          <Link to={`/pizza/${pizza.id}`} style={{ textDecoration: "none" }}>
+            <h3 style={styles.name}>🍕 {pizza.name}</h3>
+          </Link>
+            
 
         {/* Ingredientes */}
         <p style={styles.ingredientsTitle}>Ingredientes:</p>
