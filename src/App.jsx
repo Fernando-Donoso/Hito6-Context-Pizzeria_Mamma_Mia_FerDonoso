@@ -9,6 +9,8 @@ import RegisterForm from './views/RegisterForm.jsx';
 import LoginForm from './views/LoginForm.jsx';
 import Profile from './views/Profile';
 import NotFound from "./views/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+import PublicRoute from "./components/PublicRoute";
 
 function App() {
   return (
@@ -18,14 +20,42 @@ function App() {
       <main style={styles.main}>
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/pizza" element={<Pizza />} />
           <Route path="/pizza/:id" element={<Pizza />} />
-          <Route path="/register" element={<RegisterForm />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/profile" element={<Profile />} />
+
+          {/* RUTAS PÚBLICAS (solo si token es false) */}
+          <Route
+            path="/register"
+            element={
+              <PublicRoute>
+                <RegisterForm />
+              </PublicRoute>
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <PublicRoute>
+                <LoginForm />
+              </PublicRoute>
+            }
+          />
+
+          {/* RUTA PROTEGIDA (solo si token es true) */}
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/cart" element={<Cart />} />
-          <Route path="/404" element={<NotFound/>}/>
-          <Route path="*" element={<NotFound/>}/>
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
@@ -45,4 +75,4 @@ const styles = {
   },
 };
 
-export default App
+export default App;
